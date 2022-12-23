@@ -1,0 +1,42 @@
+esphome:
+  name: laser-sensor
+  includes:
+    - laser_sensor.h
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "Z0TnMPjncjQ36o7joPGP+ru2ej+FGMD5OZ9PlgT7Ldo="
+
+ota:
+  password: "211145cb8a0c32b371f3dba612437260"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Laser-Sensor Fallback Hotspot"
+    password: "Z00DzgZvYtrZ"
+
+binary_sensor:
+  - platform: custom
+    lambda: |-
+      auto laser_sensor_01 = new LaserSensor();
+      App.register_component(laser_sensor_01);
+      return {laser_sensor_01};
+
+    binary_sensors:
+      name: "Laser Sensor"
+
+captive_portal:
+    
